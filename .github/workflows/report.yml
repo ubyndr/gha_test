@@ -1,10 +1,6 @@
 name: 'report'
 
 on:
-  workflow_run:
-    workflows: ["wait for me"]
-    types:
-      - completed
   # Triggers the workflow on pull request events for the master branch
   pull_request:
     branches: [ main ]
@@ -31,7 +27,7 @@ jobs:
           echo ${{ github.event.pull_request.base.sha }}
           git fetch origin master ${{ github.event.pull_request.base.sha }}
           ls -l
-          git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} src/ontology/uberon-edit.obo > simple-report.md
+          git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} > simple-report.md
           cat simple-report.md
           echo ::set-output name=diff::$(cat simple-report.md)
       - name: Upload diff
