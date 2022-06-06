@@ -1,8 +1,8 @@
-name: 'Create ROBOT diffs on Pull requests'
+name: 'report'
 
 on:
   workflow_run:
-    workflows: ["CI build"]
+    workflows: ["wait for me"]
     types:
       - completed
   # Triggers the workflow on pull request events for the master branch
@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: echo
         run : echo ${{ github.ref }}
+      # Checks-out current branch
+      - uses: actions/checkout@v2
       # Checks-out master and prepare git diff report
       - name: create git diff
         id: gitdiff
