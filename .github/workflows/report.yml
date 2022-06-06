@@ -25,7 +25,7 @@ jobs:
         id: gitdiff
         if: ${{ github.event.pull_request.base.sha }}
         run: |
-          git branch
+          git rev-list --left-right --count ${{ github.event.pull_request.base.sha }}...${{ github.sha }}
           git rev-list --left-right --count ${{ github.event.pull_request.base.sha }}...${{ github.sha }} | awk '{if($1 > 0) print "Your branch is " $1 "commits behind of master. Please update your branch before continuing with your PR"}' > output.md
           cat output.md
           echo ::set-output name=diff::$(cat output.md)
