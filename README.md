@@ -12,4 +12,3 @@ Fifth test continued
 
 Sixth test continued
 
-An other sixth test
