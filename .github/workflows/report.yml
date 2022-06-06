@@ -25,7 +25,7 @@ jobs:
         run: |
           echo ${{ github.head_ref }}
           git fetch origin main
-          git rev-list --left-right --count origin/main...origin/${{ github.head_ref }} > simple-report.md
+          git rev-list --left-right --count main...${{ github.head_ref }} > simple-report.md
           cat simple-report.md
           echo ::set-output name=diff::$(cat simple-report.md)
       - name: Upload diff
