@@ -18,13 +18,13 @@ jobs:
         run : echo ${{ github.ref }}
       # Checks-out current branch
       - uses: actions/checkout@v2
+        with:
+            fetch-depth: 2
       # Checks-out master and prepare git diff report
       - name: create git diff
         id: gitdiff
         if: ${{ github.event.pull_request.base.sha }}
         run: |
-          git branch
-          git fetch origin main ${{ github.event.pull_request.base.sha }}
           git rev-list --left-right --count main...${{ github.head_ref }}
           cat simple-report.md
           echo ::set-output name=diff::$(cat simple-report.md)
