@@ -15,4 +15,4 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: lets keep them waiting
-        run: sleep 30
+        run: sleep 5

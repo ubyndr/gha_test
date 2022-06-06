@@ -23,9 +23,9 @@ jobs:
         id: gitdiff
         if: ${{ github.event.pull_request.base.sha }}
         run: |
-          echo ${{ github.head_ref }}
+          git branch
           git fetch origin main ${{ github.event.pull_request.base.sha }}
-          git rev-list --left-right --count main...${{ github.head_ref }} > simple-report.md
+          git rev-list --left-right --count main...${{ github.head_ref }}
           cat simple-report.md
           echo ::set-output name=diff::$(cat simple-report.md)
       - name: Upload diff
