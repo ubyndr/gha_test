@@ -25,9 +25,8 @@ jobs:
         id: gitdiff
         if: ${{ github.event.pull_request.base.sha }}
         run: |
-          git rev-list --left-right --count main...${{ github.head_ref }}
-          cat simple-report.md
-          echo ::set-output name=diff::$(cat simple-report.md)
+          git branch
+          git rev-list --left-right --count main...test
       - name: Upload diff
         uses: actions/upload-artifact@v2
         with:
