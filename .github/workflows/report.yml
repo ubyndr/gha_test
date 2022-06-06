@@ -19,7 +19,7 @@ jobs:
       # Checks-out current branch
       - uses: actions/checkout@v2
         with:
-            fetch-depth: 2
+          fetch-depth: 2
       # Checks-out master and prepare git diff report
       - name: create git diff
         id: gitdiff
