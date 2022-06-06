@@ -26,31 +26,28 @@ jobs:
         if: ${{ github.event.pull_request.base.sha }}
         run: |
           git branch
-          git rev-list --left-right --count main...test
+          git rev-list --left-right --count ${{ github.event.pull_request.base.sha }}...${{ github.sha }} | awk '{if($1 > 0) print "Your branch is " $1 "commits behind of master. Please update your branch before continuing with your PR"}' > output.md
+          cat output.md
+          echo ::set-output name=diff::$(cat output.md)
       - name: Upload diff
         uses: actions/upload-artifact@v2
         with:
-          name: simple-report.md
-          path: src/ontology/simple-report.md
+          name: output.md
+          path: output.md
   post_comment:
     needs: [diff-reports]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download reasoned diff
+      - name: Download diff
         uses: actions/download-artifact@v2
         with:
-          name: simple-report.md
-      - name: download check
-        run: |
-          pwd
-          ls -l
-      - name: Prepare reasoned comment
-        run: "echo \"<details>\n <summary> Here's a diff of how these changes impact the classified ontology (on -simple file): </summary> \n\" > comment.md; cat simple-report.md >> comment.md"
+          name: output.md
+      # - name: Prepare comment
+      #   run: "echo \"<details>\n <summary> Here's a diff of how these changes impact the classified ontology (on -simple file): </summary> \n\" > comment.md; cat simple-report.md >> comment.md"
       - name: Post reasoned comment
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         uses: NejcZdovc/comment-pr@v1.1.1
         with:
-          file: "../../comment.md"
-          identifier: "REASONED"
+          file: "output.md"
