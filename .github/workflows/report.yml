@@ -24,7 +24,7 @@ jobs:
         if: ${{ github.event.pull_request.base.sha }}
         run: |
           echo ${{ github.head_ref }}
-          git fetch origin master ${{ github.event.pull_request.base.sha }}
+          git fetch origin master
           git rev-list --left-right --count origin/main...origin/${{ github.head_ref }} > simple-report.md
           cat simple-report.md
           echo ::set-output name=diff::$(cat simple-report.md)
